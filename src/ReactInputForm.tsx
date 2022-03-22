@@ -1,7 +1,4 @@
-/**
- */
-
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect } from "react";
 import {
   Table,
   Input,
@@ -15,15 +12,19 @@ import {
   Select,
   Switch,
   Empty,
-} from 'antd';
-import moment from 'moment';
-import s from './index.css';
-import { AdminTableProps, EditableCellProps, selectSourceProps } from './AdminInputTableble.d';
-import { transformMomentToNumber } from './utils';
+} from "antd";
+import moment from "moment";
+import s from "./index.css";
+import {
+  ReactInputFormProps,
+  EditableCellProps,
+  selectSourceProps,
+} from "./ReactInputForm.d";
+import { transformMomentToNumber } from "./utils";
 
 const { Option } = Select;
 
-const TEMPORARY_ID_PREFIX = 'temp_'; // 新增数据时 id前面增加标示
+const TEMPORARY_ID_PREFIX = "temp_"; // 新增数据时 id前面增加标示
 
 const EditableContext = React.createContext<any>();
 
@@ -73,27 +74,31 @@ const EditableCell: React.FC<EditableCellProps> = ({
     ];
     if (max) {
       // number 或 string 才会有最大值或最大字符串长度
-      const type = inputType === 'number' ? 'number' : 'string';
+      const type = inputType === "number" ? "number" : "string";
       const message =
-        inputType === 'number' ? `${title}最大不能超过${max}` : `${title}最多${max}个字符`;
+        inputType === "number"
+          ? `${title}最大不能超过${max}`
+          : `${title}最多${max}个字符`;
       defaultRule = defaultRule.concat([{ max, type, message }]);
     }
     if (min) {
-      const type = inputType === 'number' ? 'number' : 'string';
+      const type = inputType === "number" ? "number" : "string";
       const message =
-        inputType === 'number' ? `${title}最小不能小于${min}` : `${title}最少${min}个字符`;
+        inputType === "number"
+          ? `${title}最小不能小于${min}`
+          : `${title}最少${min}个字符`;
       defaultRule = defaultRule.concat([{ max, type, message }]);
     }
     return rules ?? defaultRule;
   };
 
   const inputNode = () => {
-    if (dataIndex === 'serialNumber') {
+    if (dataIndex === "serialNumber") {
       return index + 1;
     }
     switch (inputType) {
       // 日期格式
-      case 'dateTimePicker':
+      case "dateTimePicker":
         return (
           <Form.Item
             name={[record.id, dataIndex]}
@@ -101,16 +106,17 @@ const EditableCell: React.FC<EditableCellProps> = ({
             rules={getRules()}
           >
             <DatePicker
-              format={format ?? 'YYYY-MM-DD HH:mm:ss'}
+              format={format ?? "YYYY-MM-DD HH:mm:ss"}
               showTime={{
-                defaultValue: timeDefaultValue ?? moment('00:00:00', 'HH:mm:ss'),
+                defaultValue:
+                  timeDefaultValue ?? moment("00:00:00", "HH:mm:ss"),
               }}
             />
           </Form.Item>
         );
 
       // 删除操作
-      case 'operation':
+      case "operation":
         return isSingleSave ? (
           <Space>
             <a type="link" onClick={cellSave}>
@@ -126,7 +132,7 @@ const EditableCell: React.FC<EditableCellProps> = ({
           </a>
         );
       // 自定义操作
-      case 'select':
+      case "select":
         return (
           <Form.Item
             name={[record.id, dataIndex]}
@@ -143,7 +149,7 @@ const EditableCell: React.FC<EditableCellProps> = ({
           </Form.Item>
         );
 
-      case 'number':
+      case "number":
         return (
           <Form.Item
             name={[record.id, dataIndex]}
@@ -154,7 +160,7 @@ const EditableCell: React.FC<EditableCellProps> = ({
           </Form.Item>
         );
 
-      case 'boolean':
+      case "boolean":
         return (
           <Form.Item
             name={[record.id, dataIndex]}
@@ -165,10 +171,13 @@ const EditableCell: React.FC<EditableCellProps> = ({
           </Form.Item>
         );
       // 自定义操作
-      case 'customAction':
+      case "customAction":
         if (dataIndex) {
           return (
-            <Form.Item name={[record.id, dataIndex]} initialValue={record[dataIndex]}>
+            <Form.Item
+              name={[record.id, dataIndex]}
+              initialValue={record[dataIndex]}
+            >
               {customRender(record, index)}
             </Form.Item>
           );
@@ -184,7 +193,11 @@ const EditableCell: React.FC<EditableCellProps> = ({
             rules={getRules()}
           >
             {rows ? (
-              <Input.TextArea rows={rows} disabled={disabled} title={record[dataIndex]} />
+              <Input.TextArea
+                rows={rows}
+                disabled={disabled}
+                title={record[dataIndex]}
+              />
             ) : (
               <Input disabled={disabled} title={record[dataIndex]} />
             )}
@@ -195,7 +208,7 @@ const EditableCell: React.FC<EditableCellProps> = ({
   return <td {...restProps}>{inputNode()}</td>;
 };
 
-const AdminInputTable: React.FC<AdminTableProps> = (
+const ReactInputForm: React.FC<ReactInputFormProps> = (
   {
     saveBtnText,
     addBtnText,
@@ -213,7 +226,7 @@ const AdminInputTable: React.FC<AdminTableProps> = (
     onSaveWithKey, // 保存回调数据中需额外增加的字段
     ...restProps
   },
-  ref,
+  ref
 ) => {
   const [form] = Form.useForm();
   const [data, setData] = useState(dataSource);
@@ -221,11 +234,11 @@ const AdminInputTable: React.FC<AdminTableProps> = (
   useEffect(() => {
     // 初始化数据处理
     if (Array.isArray(columns)) {
-      if (!notSerial && columns[0].title !== '序号') {
-        columns.unshift({ title: '序号', dataIndex: 'serialNumber' });
+      if (!notSerial && columns[0].title !== "序号") {
+        columns.unshift({ title: "序号", dataIndex: "serialNumber" });
       }
     } else {
-      message.error('column需是数组');
+      message.error("column需是数组");
     }
   }, []);
 
@@ -235,20 +248,22 @@ const AdminInputTable: React.FC<AdminTableProps> = (
         dataSource.forEach((item, index) => {
           item.id = index;
         });
-        console.log('!!AdminInputTable组件dataSource数据中需有id！！默认使用index作为id');
+        console.log(
+          "!!ReactInputForm组件dataSource数据中需有id！！默认使用index作为id"
+        );
       }
       setData([...dataSource]);
     }
   }, [dataSource]);
 
-  const handleDelete = id => {
+  const handleDelete = (id) => {
     if (isSingleSave && id && !id.toString().startsWith(TEMPORARY_ID_PREFIX)) {
       // 非单行保存 且不是临时id的才抛出删除id
       onDelete(id);
     } else {
       data.splice(
-        data.findIndex(item => item.id == id),
-        1,
+        data.findIndex((item) => item.id == id),
+        1
       );
       setData([...data]);
     }
@@ -273,7 +288,9 @@ const AdminInputTable: React.FC<AdminTableProps> = (
     //   return;
     // }
     // 新建数据 加上默认key 格式：TEMP_N_(R) 第几条数据_随机数，不然删除后id会重复
-    const id = `${TEMPORARY_ID_PREFIX}_${data.length + 1}_${parseInt(Math.random() * 100)}`;
+    const id = `${TEMPORARY_ID_PREFIX}_${data.length + 1}_${parseInt(
+      Math.random() * 100
+    )}`;
     const newDataSource = [...data, { id }];
     setData([...newDataSource]);
   };
@@ -281,41 +298,43 @@ const AdminInputTable: React.FC<AdminTableProps> = (
   // 在保存数据中增加指定传递的字段 - onSaveWithKey
   const appendItemWithKey = (item: any, key: string, value: number) => {
     const findItem = dataSource?.find((d: any) => d[key] === value);
-    item[onSaveWithKey] = findItem ? findItem[onSaveWithKey] : '';
+    item[onSaveWithKey] = findItem ? findItem[onSaveWithKey] : "";
   };
 
-  const handleSave = async e => {
+  const handleSave = async (e) => {
     try {
       const values = await form.validateFields();
       const result = [];
-      Object.keys(values).forEach(id => {
+      Object.keys(values).forEach((id) => {
         const item = transformMomentToNumber(values[id]);
         if (onSaveWithKey) {
-          appendItemWithKey(item, 'id', +id);
+          appendItemWithKey(item, "id", +id);
         }
         result.push(item);
       });
-      console.log('保存数据成功：', result);
+      console.log("保存数据成功：", result);
       onSave([...result]);
     } catch (err) {
-      console.log('保存出错!', err);
+      console.log("保存出错!", err);
     }
   };
   const handleSingleSave = async (id, index) => {
     try {
       const values = await form.validateFields();
       const result = transformMomentToNumber(values[id]);
-      console.log('单行保存数据成功：', result);
+      console.log("单行保存数据成功：", result);
 
       const saveParams = { ...result };
-      id && !id.toString().startsWith(TEMPORARY_ID_PREFIX) && (saveParams.id = id); // 区分是否有真实的id
+      id &&
+        !id.toString().startsWith(TEMPORARY_ID_PREFIX) &&
+        (saveParams.id = id); // 区分是否有真实的id
       onSave(saveParams, index);
       // id.toString().startsWith(TEMPORARY_ID_PREFIX) ? onSave({ ...result }) : onSave({ ...result, id });
     } catch (err) {
-      console.log('保存出错!', err);
+      console.log("保存出错!", err);
     }
   };
-  const mergedColumns = columns.map(col => {
+  const mergedColumns = columns.map((col) => {
     console.log(col, dataSource?.length);
     return {
       ...col,
@@ -326,11 +345,11 @@ const AdminInputTable: React.FC<AdminTableProps> = (
           record,
           isSingleSave,
           title: col.title,
-          onDelete: id => {
+          onDelete: (id) => {
             handleDelete(id);
           },
           disabled: col?.onlyAddCanEdit && index < dataSource?.length,
-          onSingleSave: id => {
+          onSingleSave: (id) => {
             handleSingleSave(id, index);
           },
         };
@@ -354,23 +373,31 @@ const AdminInputTable: React.FC<AdminTableProps> = (
             dataSource={data || []}
             pagination={false}
             locale={{
-              emptyText: '暂无数据',
+              emptyText: "暂无数据",
             }}
           />
-          {data.length ? null : <Empty description="暂无数据" style={{ marginTop: 10 }} />}
+          {data.length ? null : (
+            <Empty description="暂无数据" style={{ marginTop: 10 }} />
+          )}
           <br />
           {!hiddenAddButton && (
             <Button
               onClick={handleAdd}
               type="primary"
-              disabled={limitDataSourceLen && data.length === limitDataSourceLen}
+              disabled={
+                limitDataSourceLen && data.length === limitDataSourceLen
+              }
             >
-              {addBtnText || '+ 添加'}
+              {addBtnText || "+ 添加"}
             </Button>
           )}
           {isSingleSave ? null : (
-            <Button onClick={handleSave} type="primary" style={{ marginLeft: 10 }}>
-              {saveBtnText || '保存'}
+            <Button
+              onClick={handleSave}
+              type="primary"
+              style={{ marginLeft: 10 }}
+            >
+              {saveBtnText || "保存"}
             </Button>
           )}
         </EditableContext.Provider>
@@ -379,4 +406,4 @@ const AdminInputTable: React.FC<AdminTableProps> = (
   );
 };
 
-export default React.forwardRef(AdminInputTable);
+export default ReactInputForm;
