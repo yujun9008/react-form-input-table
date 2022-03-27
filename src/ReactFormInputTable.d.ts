@@ -1,4 +1,4 @@
-export interface ReactInputFormProps {
+export interface ReactFormInputTableProps {
   columns: columnsProps[]; // 行标题
   dataSource: dataSourceProps[]; // 数据
   saveBtnText?: string; // 保存按钮文案

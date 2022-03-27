@@ -5,7 +5,7 @@ import { storiesOf } from "@storybook/react";
 import { RangePicker, Button } from "antd";
 import moment from "moment";
 import "antd/dist/antd.css";
-import AdminInputTable from "../src/AdminInputTable";
+import ReactFormInputTable from "../src/index";
 const COLUMNS = [
   {
     title: "名称",
@@ -73,7 +73,7 @@ const onDelete = () => {};
 
 storiesOf("react-form-table", module)
   .add("默认", () => (
-    <AdminInputTable
+    <ReactFormInputTable
       columns={COLUMNS}
       dataSource={dataSource}
       onSave={onSave}
@@ -82,7 +82,7 @@ storiesOf("react-form-table", module)
     />
   ))
   .add("单行保存模式", () => (
-    <AdminInputTable
+    <ReactFormInputTable
       columns={COLUMNS}
       isSingleSave
       dataSource={[]}

@@ -16,10 +16,10 @@ import {
 import moment from "moment";
 import s from "./index.css";
 import {
-  ReactInputFormProps,
+  ReactFormInputTableProps,
   EditableCellProps,
   selectSourceProps,
-} from "./ReactInputForm.d";
+} from "./ReactFormInputTable";
 import { transformMomentToNumber } from "./utils";
 
 const { Option } = Select;
@@ -208,7 +208,7 @@ const EditableCell: React.FC<EditableCellProps> = ({
   return <td {...restProps}>{inputNode()}</td>;
 };
 
-const ReactInputForm: React.FC<ReactInputFormProps> = (
+const ReactFormInputTable: React.FC<ReactFormInputTableProps> = (
   {
     saveBtnText,
     addBtnText,
@@ -249,7 +249,7 @@ const ReactInputForm: React.FC<ReactInputFormProps> = (
           item.id = index;
         });
         console.log(
-          "!!ReactInputForm组件dataSource数据中需有id！！默认使用index作为id"
+          "!!ReactFormInputTable组件dataSource数据中需有id！！默认使用index作为id"
         );
       }
       setData([...dataSource]);
@@ -406,4 +406,4 @@ const ReactInputForm: React.FC<ReactInputFormProps> = (
   );
 };
 
-export default ReactInputForm;
+export default ReactFormInputTable;
