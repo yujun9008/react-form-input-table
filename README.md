@@ -6,38 +6,75 @@
 npm i react-form-input-table
 ```
 
-## Development
-
-```
-npm install
-npm start
-```
-
 ## Usage
 
-![基本使用](./stories/basic.png)
+#### 基本模式
 
-## Example
-
-#### basic
+![基本模式](./stories/basic.png)
 
 ```
-const COLUMNS_RELATED_WORD = [{
-  title: '显示搜索词',
-  dataIndex: 'name',
-}, {
-  title: '关键词英文逗号,隔开',
-  dataIndex: 'keyWords',
-  rules: [],
-}, {
-  title: '权重',
-  dataIndex: 'weight',
-  inputType: 'number',
-}, {
-  title: '操作',
-  dataIndex: 'operation',
-  inputType: 'operation'
-}]
+const COLUMNS = [
+  {
+    title: "名称",
+    dataIndex: "title",
+  },
+  {
+    title: "富文本",
+    dataIndex: "richText",
+    rows: "3",
+  },
+  {
+    title: "日期",
+    dataIndex: "time",
+    inputType: "dateTimePicker",
+  },
+  {
+    title: "开关",
+    dataIndex: "switch",
+    inputType: "boolean",
+  },
+  {
+    title: "选择框",
+    dataIndex: "select",
+    inputType: "select",
+    selectSource: [
+      {
+        id: 1,
+        name: "第一项",
+      },
+      {
+        id: 2,
+        name: "第二项",
+      },
+    ],
+  },
+  {
+    title: "自定义时间",
+    dataIndex: "dateRange",
+    inputType: "customAction",
+    customRender: (record) => {
+      return (
+        <>
+          <Button>自定义操作</Button>
+        </>
+      );
+    },
+  },
+  {
+    title: "操作",
+    dataIndex: "operation",
+    inputType: "operation",
+  },
+];
+const dataSource = [
+  {
+    id: 1,
+    title: "测试",
+    time: moment(),
+    switch: true,
+    select: 2,
+  },
+];
 const save = values => {
 
 }
@@ -46,6 +83,22 @@ const save = values => {
       dataSource={searchRelatedWordData}
       onSave={values => { save(values) }}
 />
+```
+
+#### 单行保存模式
+
+![单行保存模式](./stories/single.png)
+
+```
+
+<ReactFormInputTable
+      columns={COLUMNS}
+      isSingleSave
+      dataSource={[]}
+      onSave={onSave}
+      onDelete={onDelete}
+      addBtnText="新增一条数据"
+    />
 ```
 
 ## API and Usage
