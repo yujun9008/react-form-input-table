@@ -1,4 +1,12 @@
-一个基于 React 的多表单输入型 Table 组件，适用于中后台多行输入型表单。简单灵活，易用上手。
+
+
+<p align="center">
+  <img width="100" src="https://smebimage.fuliaoyi.com/Fger7VZclDUaXDJuqg42MlsUqV-w">
+</p>
+
+<h1 align="center">react-form-input-table</h1>
+
+<div align="center">一个基于 React 的多表单输入型 Table 组件，适用于中后台多行输入型表单。简单灵活，易用上手。</div>
 
 ## install
 

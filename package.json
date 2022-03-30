@@ -1,7 +1,7 @@
 {
   "name": "react-form-input-table",
-  "version": "0.0.2",
-  "description": "a react form table",
+  "version": "0.0.3",
+  "description": "a react input form table",
   "main": "/dist/bundles.js",
   "scripts": {
     "bundle": "rollup -c",
