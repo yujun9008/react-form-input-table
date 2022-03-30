@@ -1,8 +1,8 @@
 {
   "name": "react-form-input-table",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "a react form table",
-  "main": "index.js",
+  "main": "/dist/bundles.js",
   "scripts": {
     "bundle": "rollup -c",
     "storybook": "start-storybook -p 9001 -c .storybook",
@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/yujun9008/react-form-table.git"
+    "url": "git+https://github.com/yujun9008/react-form-input-table.git"
   },
   "author": "yujun",
   "license": "ISC",
@@ -29,11 +29,14 @@
     "typescript": "^4.6.3"
   },
   "devDependencies": {
+    "@babel/core": "^7.17.8",
+    "@babel/preset-env": "^7.16.11",
     "@storybook/react": "^6.2.5",
+    "postcss": "^8.4.12",
     "rollup-plugin-babel": "^4.4.0",
     "rollup-plugin-commonjs": "^10.1.0",
-    "rollup-plugin-import-css": "^3.0.3",
     "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-postcss": "^4.0.2",
     "rollup-plugin-terser": "^7.0.2",
     "rollup-plugin-typescript": "^1.0.1",
     "tslib": "^2.1.0"
