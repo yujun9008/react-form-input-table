@@ -1,4 +1,4 @@
-一个基于 react 和 antd 的可输入 table 组件，适用于中后台多行输入型表单。简单灵活，易用上手。
+一个基于 React 的多表单输入型 Table 组件，适用于中后台多行输入型表单。简单灵活，易用上手。
 
 ## install
 
@@ -12,10 +12,6 @@ npm i react-form-input-table
 npm install
 npm start
 ```
-
-## Example
-
-https://table.react-component.now.sh/
 
 ## Usage
 
@@ -45,7 +41,7 @@ const COLUMNS_RELATED_WORD = [{
 const save = values => {
 
 }
-<AdminInputTable
+<ReactFormInputTable.d
       columns={COLUMNS_RELATED_WORD}
       dataSource={searchRelatedWordData}
       onSave={values => { save(values) }}
