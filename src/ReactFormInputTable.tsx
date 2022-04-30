@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Table,
   Input,
@@ -19,14 +19,15 @@ import {
   ReactFormInputTableProps,
   EditableCellProps,
   selectSourceProps,
-} from "./ReactFormInputTable";
+} from "./ReactFormInputTable.d";
+
 import { transformMomentToNumber } from "./utils";
 
 const { Option } = Select;
 
 const TEMPORARY_ID_PREFIX = "temp_"; // 新增数据时 id前面增加标示
 
-const EditableContext = React.createContext<any>();
+const EditableContext = React.createContext<any>(null);
 
 const EditableCell: React.FC<EditableCellProps> = ({
   title,
@@ -52,7 +53,7 @@ const EditableCell: React.FC<EditableCellProps> = ({
   selectSource,
   ...restProps
 }) => {
-  const form = useContext(EditableContext);
+  // const form = useContext(EditableContext);
   if (!record) {
     return null;
   }
@@ -66,7 +67,7 @@ const EditableCell: React.FC<EditableCellProps> = ({
   };
 
   const getRules = () => {
-    let defaultRule = [
+    let defaultRule: any[] = [
       {
         required: true,
         message: `请输入${title}`,
@@ -79,7 +80,7 @@ const EditableCell: React.FC<EditableCellProps> = ({
         inputType === "number"
           ? `${title}最大不能超过${max}`
           : `${title}最多${max}个字符`;
-      defaultRule = defaultRule.concat([{ max, type, message }]);
+      defaultRule = [...defaultRule, { max, type, message }];
     }
     if (min) {
       const type = inputType === "number" ? "number" : "string";
@@ -87,7 +88,7 @@ const EditableCell: React.FC<EditableCellProps> = ({
         inputType === "number"
           ? `${title}最小不能小于${min}`
           : `${title}最少${min}个字符`;
-      defaultRule = defaultRule.concat([{ max, type, message }]);
+      defaultRule = [...defaultRule, { max, type, message }];
     }
     return rules ?? defaultRule;
   };
@@ -289,7 +290,7 @@ const ReactFormInputTable: React.FC<ReactFormInputTableProps> = (
     // }
     // 新建数据 加上默认key 格式：TEMP_N_(R) 第几条数据_随机数，不然删除后id会重复
     const id = `${TEMPORARY_ID_PREFIX}_${data.length + 1}_${parseInt(
-      Math.random() * 100
+      String(Math.random() * 100)
     )}`;
     const newDataSource = [...data, { id }];
     setData([...newDataSource]);
@@ -324,7 +325,7 @@ const ReactFormInputTable: React.FC<ReactFormInputTableProps> = (
       const result = transformMomentToNumber(values[id]);
       console.log("单行保存数据成功：", result);
 
-      const saveParams = { ...result };
+      const saveParams: any = { ...result };
       id &&
         !id.toString().startsWith(TEMPORARY_ID_PREFIX) &&
         (saveParams.id = id); // 区分是否有真实的id
@@ -334,7 +335,7 @@ const ReactFormInputTable: React.FC<ReactFormInputTableProps> = (
       console.log("保存出错!", err);
     }
   };
-  const mergedColumns = columns.map((col) => {
+  const mergedColumns = columns.map((col: EditableCellProps) => {
     console.log(col, dataSource?.length);
     return {
       ...col,

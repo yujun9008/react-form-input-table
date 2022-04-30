@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
-    "outDir": "build/dist",
+    "outDir": "dist",
     "module": "esnext",
-    "target": "esnext",
+    "target": "es5",
     "lib": ["esnext", "dom"],
     "sourceMap": true,
     "baseUrl": ".",
@@ -18,8 +18,10 @@
     "strict": false,
     "paths": {
       "@/*": ["./src/*"]
-    }
+    },
+    "plugins": [{ "name": "typescript-plugin-css-modules" }]
   },
+  "include": ["src/**/*", "declaration.d.ts"],
   "exclude": [
     "node_modules",
     "build",
